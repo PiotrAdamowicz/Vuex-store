@@ -187,18 +187,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     data: [""],
-    testingData: "",
+    testingData: [""],
   },
   mutations: {
     SET_DATA(state, paylode) {
       let res = [];
-      // console.log(`paylode: `);
-      // console.log(paylode);
 
-      // res.push({ currency: rate, amount: rates[rate].toFixed(2) });
+      console.log(paylode);
 
       const rates = Object.entries(paylode.rates);
-      // console.log("rates", rates);
+
       rates.forEach((rate) => {
         res.push({ currency: rate[0], amount: rate[1] });
       });
@@ -208,10 +206,12 @@ export default new Vuex.Store({
     },
     TESTING_DATA(state, paylode) {
       state.testingData = paylode;
+      console.log(paylode);
     },
   },
   actions: {
     getData({ commit }) {
+      console.log(fakeData.date);
       commit("SET_DATA", fakeData);
 
       //   axios
@@ -224,6 +224,9 @@ export default new Vuex.Store({
       //     .catch((err) => {
       //       console.log(err);
       //     });
+    },
+    setDate({ commit }, paylode) {
+      commit("TESTING_DATA", paylode);
     },
   },
   getters: {

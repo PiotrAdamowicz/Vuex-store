@@ -12,7 +12,7 @@
       class="elevation-1 flex-grow-0 flex-shrink-1"
     ></v-data-table>
     <v-btn v-on:click="btnClick()" elevation="2" color="error" text large
-      >test</v-btn
+      >Refresh</v-btn
     >
     <h2>{{ h2 }}</h2>
   </div>
@@ -44,11 +44,15 @@ export default {
       return this.$store.getters.getData;
     },
     localComputed() {
-      console.log();
-      return 0;
+      console.log(this.$store.getters.testData);
+      return this.$store.getters.testData;
     },
   },
   watch: {
+    localComputed() {
+      this.date = this.localComputed;
+      console.log(this.date);
+    },
     getData() {
       this.itemsData = this.getData;
       console.log(this.itemsData);
@@ -70,14 +74,14 @@ export default {
     // ...mapActions({ getData: "store/getData" }),
     setData(date = "") {
       date = new Date().toISOString().substr(0, 10);
-      this.loading = true;
+      this.loading = false;
       this.$store.dispatch("getData", date);
       // this.h2 = this.$store.getters.testingData;
     },
     btnClick(date = "") {
       console.log("button works");
-      date = new Date().toISOString().substr(0, 10);
-      this.$store.dispatch("getData", date);
+      date = "2020-04-03";
+      this.$store.dispatch("setDate", date);
     },
   },
 };
