@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 // import axios from "axios";
-const baseURL = "http://api.exchangeratesapi.io/v1/";
-const access_key = "31417285af16596aeed9e5a3d3e2e460";
+// const baseURL = "http://api.exchangeratesapi.io/v1/";
+// const access_key = "31417285af16596aeed9e5a3d3e2e460";
 // const url = "latest";
 
 const fakeData = {
@@ -192,8 +192,17 @@ export default new Vuex.Store({
   mutations: {
     SET_DATA(state, paylode) {
       let res = [];
-      console.log(`paylode: `);
-      console.log(paylode);
+      // console.log(`paylode: `);
+      // console.log(paylode);
+
+      // res.push({ currency: rate, amount: rates[rate].toFixed(2) });
+
+      const rates = Object.entries(paylode.rates);
+      // console.log("rates", rates);
+      rates.forEach((rate) => {
+        res.push({ currency: rate[0], amount: rate[1] });
+      });
+      console.log(res);
 
       state.data = res;
     },
@@ -202,19 +211,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getData({ commit }, paylode) {
-      console.log(`date: ${paylode.success ? paylode : "empty"}`);
-      console.log("fake:");
-      console.log(fakeData);
-
-      // if (paylode.success) {
-      //   console.log(`Date format: ${paylode}`);
-      //   const url = `${baseURL}${paylode}?access_key=${access_key}`;
-      //   commit("TESTING_DATA", fakeData);
-      // } else {
-      //   commit("SET_DATA", fakeData);
-      // }
-
+    getData({ commit }) {
       commit("SET_DATA", fakeData);
 
       //   axios

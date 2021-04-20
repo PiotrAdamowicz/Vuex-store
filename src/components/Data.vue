@@ -1,12 +1,15 @@
 <template>
-  <div>
+  <div class="d-inline-flex pa-2">
+    <!-- <h2>{{ mainCurrencyData }} exchange rate</h2> -->
+    <v-row justify="center"> Date picker will be here </v-row>
     <v-data-table
+      width="50%"
       :headers="headers"
       :items="itemsData"
       :options.sync="options"
-      :items-per-page="15"
+      :items-per-page="50"
       :loading="loading"
-      class="elevation-1"
+      class="elevation-1 flex-grow-0 flex-shrink-1"
     ></v-data-table>
     <v-btn v-on:click="btnClick()" elevation="2" color="error" text large
       >test</v-btn
@@ -16,7 +19,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
 export default {
   name: "Data",
   data: () => {
@@ -38,21 +40,22 @@ export default {
     };
   },
   computed: {
-    ...mapState(["data", "testingData"]),
-    ...mapGetters(["getData", "testData"]),
-    localComputed(getData) {
-      console.log(getData);
-      return getData;
+    getData() {
+      return this.$store.getters.getData;
+    },
+    localComputed() {
+      console.log();
+      return 0;
     },
   },
   watch: {
-    data(items) {
-      this.itemsData = items;
+    getData() {
+      this.itemsData = this.getData;
       console.log(this.itemsData);
     },
     options: {
       handler() {
-        this.getDataFromApi();
+        this.setData();
       },
       deep: true,
     },
@@ -61,10 +64,11 @@ export default {
     },
   },
   mounted() {
-    this.getDataFromApi();
+    this.setData();
   },
   methods: {
-    getDataFromApi(date = "") {
+    // ...mapActions({ getData: "store/getData" }),
+    setData(date = "") {
       date = new Date().toISOString().substr(0, 10);
       this.loading = true;
       this.$store.dispatch("getData", date);
